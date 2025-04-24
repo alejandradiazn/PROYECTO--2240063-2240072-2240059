@@ -45,3 +45,66 @@ PlazaBelgrano = Node(22, parent=PlazaPaso)
 PlazaOlazabal = Node(23, parent=PlazaItalia)
 PlazaAlsina = Node(24, parent=PlazaItalia)
 DirecciondeMigraciones = Node(25, parent=PlazaItalia)
+
+ubicaciones = {
+    "Plaza Moreno": PlazaMoreno,
+    "Plaza San Martín": PlazaSanMartin,
+    "Plaza Dardo Rocha": PlazaDardoRocha,
+    "Plaza Máximo Paz": PlazaMaximoPaz,
+    "Plaza Hipólito Yrigoyen": PlazaHipolitoYrigoyen,
+    "Plaza Malvinas Argentinas": PlazaMalvinasArgentinas,
+    "Plaza Azcuénaga": PlazaAzcuenaga,
+    "Plaza Paso": PlazaPaso,
+    "Plaza Italia": PlazaItalia,
+    "Plaza Rivadavia": PlazaRivadavia,
+    "Fiscalía del Estado": FiscaliadelEstado,
+    "Plaza Matheu": PlazaMatheu,
+    "Plaza España": PlazaEspaña,
+    "Plaza Saavedra": PlazaSaavedra,
+    "Plaza Sarmiento": PlazaSarmiento,
+    "Plaza Castelli": PlazaCastelli,
+    "Plaza Brandsen": PlazaBrandsen,
+    "Plaza Vucetich": PlazaVucetich,
+    "Plaza 19 de noviembre": Plaza19denoviembre,
+    "Plaza Alberti": PlazaAlberti,
+    "Plaza Güemes": PlazaGuemes,
+    "Plaza Belgrano": PlazaBelgrano,
+    "Plaza Olazábal": PlazaOlazabal,
+    "Plaza Alsina": PlazaAlsina,
+    "Dirección de Migraciones": DirecciondeMigraciones
+}
+
+def mostrar_menu():
+    print("=== Bienvenido a La Ruta del Tamal ===")
+    print("Por favor, seleccione su ubicación para recibir el pedido:")
+    for i, nombre in enumerate(ubicaciones.keys(), start=1):
+        print(f"{i}. {nombre}")
+    print("0. Salir")
+
+def obtener_ruta_hasta_raiz(nodo):
+    ruta = []
+    while nodo:
+        ruta.insert(0, str(nodo.name)) 
+        nodo = nodo.parent
+    return ruta
+
+def recibir_pedido():
+    while True:
+        mostrar_menu()
+        opcion = input("Ingrese el número de su ubicación: ")
+        if opcion == "0":
+            print("¡Gracias por usar La Ruta del Tamal!")
+            break
+        try:
+            opcion = int(opcion)
+            ubicacion = list(ubicaciones.keys())[opcion - 1]
+            nodo_destino = ubicaciones[ubicacion]
+            ruta = obtener_ruta_hasta_raiz(nodo_destino)
+            print(f"\n Pedido recibido para {ubicacion}")
+            print(" Enviando domiciliario por la siguiente ruta:")
+            print(" -> ".join(ruta))
+            print("Pedido en camino...\n")
+        except (IndexError, ValueError):
+            print(" Opción inválida. Intente nuevamente.\n")
+
+recibir_pedido()
