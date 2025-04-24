@@ -81,7 +81,7 @@ def mostrar_menu():
         print(f"{i}. {nombre}")
     print("0. Salir")
 
-def obtener_ruta_hasta_raiz(nodo):
+def obtener_ruta(nodo):
     ruta = []
     while nodo:
         ruta.insert(0, str(nodo.name)) 
@@ -99,7 +99,7 @@ def recibir_pedido():
             opcion = int(opcion)
             ubicacion = list(ubicaciones.keys())[opcion - 1]
             nodo_destino = ubicaciones[ubicacion]
-            ruta = obtener_ruta_hasta_raiz(nodo_destino)
+            ruta = obtener_ruta(nodo_destino)
             print(f"\n Pedido recibido para {ubicacion}")
             print(" Enviando domiciliario por la siguiente ruta:")
             print(" -> ".join(ruta))
