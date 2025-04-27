@@ -88,23 +88,52 @@ def obtener_ruta(nodo):
         nodo = nodo.parent
     return ruta
 
+def agregar_nodo():
+    print("Seleccione el nodo existente a la cual añadir el nuevo nodo: ")
+    for i, nombre in enumerate(ubicaciones.keys(), start=1):
+        print(f"{i}. {nombre}")
+    opcion = int(input("Ingrese el número del nodo deseado: "))
+    control = list(ubicaciones.keys())[opcion - 1]
+    nodo_elegido = ubicaciones[control]
+    opcion_2 = input("Digite el nombre del nuevo nodo a agregar: ")
+    largo = len(ubicaciones)
+    nodo_nuevo = Node((largo + 1), parent = nodo_elegido)
+    ubicaciones[opcion_2] = nodo_nuevo
+    print("Se agrego el nuevo nodo exitosamente.")
+    recibir_pedido()
+
 def recibir_pedido():
     while True:
-        mostrar_menu()
-        opcion = input("Ingrese el número de su ubicación: ")
-        if opcion == "0":
-            print("¡Gracias por usar La Ruta del Tamal!")
+        print("Seleccione la opcion que desee:")
+        print("1. Agregar nodo")
+        print("2. Hacer un pedido")
+        print("3. Salir")
+        control = int(input("Ingrese el numero de la opcion: "))
+        if control == 1:
+            agregar_nodo()
+        elif control == 2:
+            while True:
+                mostrar_menu()
+                opcion = input("Ingrese el número de su ubicación: ")
+                if opcion == "0":
+                    print("¡Gracias por usar La Ruta del Tamal!")
+                    break
+                try:
+                    opcion = int(opcion)
+                    ubicacion = list(ubicaciones.keys())[opcion - 1]
+                    nodo_destino = ubicaciones[ubicacion]
+                    ruta = obtener_ruta(nodo_destino)
+                    print(f"\n Pedido recibido para {ubicacion}")
+                    print(" Enviando domiciliario por la siguiente ruta:")
+                    print(" -> ".join(ruta))
+                    print("Pedido en camino...\n")
+                    break
+                except (IndexError, ValueError):
+                    print(" Opción inválida. Intente nuevamente.\n")
+        elif control == 3:
+            print("Gracias por usar nuestros servicios.")
             break
-        try:
-            opcion = int(opcion)
-            ubicacion = list(ubicaciones.keys())[opcion - 1]
-            nodo_destino = ubicaciones[ubicacion]
-            ruta = obtener_ruta(nodo_destino)
-            print(f"\n Pedido recibido para {ubicacion}")
-            print(" Enviando domiciliario por la siguiente ruta:")
-            print(" -> ".join(ruta))
-            print("Pedido en camino...\n")
-        except (IndexError, ValueError):
-            print(" Opción inválida. Intente nuevamente.\n")
+        else:
+            print("Opcion incorrecta intente nuevamente.")
 
 recibir_pedido()
