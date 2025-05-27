@@ -36,6 +36,8 @@ pesos = [8, 5, 5, 7, 4, 9, 4, 9, 4, 7, 9, 8, 6, 8, 4, 6,
         2, 3, 4, 4, 6, 4, 5, 3, 5, 3, 3, 4, 5, 3, 2, 3,
         6, 4, 6, 4, 5, 4, 4, 2, 3, 5, 5, 7, 2, 4, 6]
 
+contraseña = "RutaTamal123"
+
 grafoRutaTamal = ig.Graph()
 
 grafoRutaTamal.add_vertices(25)
@@ -62,19 +64,71 @@ def obtener_ruta(nodo):
 
 def agregar_nodo():
     nodo = grafoRutaTamal.add_vertices(1)
-    grafoRutaTamal.vs[grafoRutaTamal.vcount() - 1]["label"] = input("Escriba el nombre del nuevo punto de entrega: ")
+    for i in range(grafoRutaTamal.vcount()):
+        print(f"{i+1}. {grafoRutaTamal.vs[i]["label"]}")
+    grafoRutaTamal.vs[grafoRutaTamal.vcount() - 1]["label"] = input("Escriba el nombre de la nueva ubicación de entrega: ")
+
+def agregar_arista():
+    for i in range(grafoRutaTamal.vcount()):
+        print(f"{i+1}. {grafoRutaTamal.vs[i]["label"]}")
+    opcion1 = int(input("Seleccione la ubicación inicial del camino:"))
+    opcion2 = int(input("Seleccione la ubicación final del camino:"))
+    grafoRutaTamal.add_edges([((opcion1 - 1), (opcion2 - 1))])
+    grafoRutaTamal.es[grafoRutaTamal.ecount() - 1]["weight"] = int(input("Escribe en minutos la duracion del trayecto:"))
+
+def menu_empleado():
+    while True:
+        print("=== Bienvenido al menú de empleado de la Ruta del Tamal ===")
+        print("Seleccione la opción que desea:")
+        print("1. Agregar nueva ubicación de entrega")
+        print("2. Agregar nuevo camino")
+        print("3. Salir")
+        opcion = int(input("Ingrese el número de la opción:"))
+        if opcion == 1:
+            agregar_nodo()
+        elif opcion == 2:
+            agregar_arista()
+        elif opcion == 3:
+            print("Saliendo...")
+            menu_general()
+            break
+
+def menu_general():
+    while True:
+        print("==============BIENVENIDO A LA RUTA DEL TAMAL==================")
+        print("Seleccione el menú al que desee ingresar.")
+        print("1. Menú de Empleados")
+        print("2. Menú de Clientes")
+        print("3. Salir")
+        opcion = int(input("Ingrese la opción que desea:"))
+        if opcion == 1:
+            ingresar_menu_empleado()
+            break
+        elif opcion == 2:
+            recibir_pedido()
+            break
+        elif opcion == 3:
+            print("Saliendo...")
+            break
+        
+def ingresar_menu_empleado():
+    while True:
+        contraseña1 = input("Escriba la contraseña para ingresar al sistema:")
+        if contraseña1 == contraseña:
+            menu_empleado()
+            break
+        else:
+            print("Contraseña incorrecta, intente nuevamente.")
+        
 
 def recibir_pedido():
     while True:
         print("Seleccione la opción que desee:")
-        print("1. Agregar lugar de entrega")
-        print("2. Hacer un pedido")
-        print("3. Mostrar cantidad de lugares de entrega")
-        print("4. Salir")
+        print("1. Hacer un pedido")
+        print("2. Mostrar cantidad de lugares de entrega")
+        print("3. Salir")
         control = int(input("Ingrese el número de la opción: "))
         if control == 1:
-            agregar_nodo()
-        elif control == 2:
             while True:
                 mostrar_menu()
                 opcion = int(input("Ingrese el número de su ubicación: "))
@@ -88,12 +142,14 @@ def recibir_pedido():
                     break
                 except (IndexError, ValueError):
                     print("Opción inválida. Intente nuevamente.\n")
-        elif control == 3:
+        elif control == 2:
+            
             print(f"\nActualmente hay {grafoRutaTamal.vcount()} lugares de entrega registrados.\n")
-        elif control == 4:
+        elif control == 3:
             print("Gracias por usar nuestros servicios.")
+            menu_general()
             break
         else:
             print("Esa opción no está disponible. Intente nuevamente.")
 
-recibir_pedido()
+menu_general()
